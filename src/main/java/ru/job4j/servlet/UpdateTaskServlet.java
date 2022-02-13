@@ -1,4 +1,6 @@
-package ru.job4j;
+package ru.job4j.servlet;
+
+import ru.job4j.repository.HbmTaskStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,6 @@ public class UpdateTaskServlet extends HttpServlet {
         var id = Integer.valueOf(req.getParameter("taskId"));
         var done = req.getParameter("taskDone");
         var store = HbmTaskStore.getInstance();
-        store.update(id, !"1".equals(done));
+        store.update(id, !done.equals("true"));
     }
 }

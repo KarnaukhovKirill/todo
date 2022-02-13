@@ -71,9 +71,9 @@ function createTaskHtml(done, data) {
     var $thirdTd = $('<td>');
     var $div = $('<div align=\"center\"></div>');
     if (done) {
-        $div.prepend('<input class=\"form-check-input\" type=\"checkbox\" value=\"' + data.id + '\" onclick=\"updateTask(' + data.id + ', 1' + ')\" checked/>');
+        $div.prepend('<input class=\"form-check-input\" type=\"checkbox\" value=\"' + data.id + '\" onclick=\"updateTask(' + data.id + ', true' + ')\" checked/>');
     } else {
-        $div.prepend('<input class=\"form-check-input\" type=\"checkbox\" value=\"' + data.id + '\" onclick=\"updateTask(' + data.id + ', 0' + ')\"/>');
+        $div.prepend('<input class=\"form-check-input\" type=\"checkbox\" value=\"' + data.id + '\" onclick=\"updateTask(' + data.id + ', false' + ')\"/>');
     }
     $thirdTd.prepend($div);
     $newTr.append($firstTd);

@@ -1,6 +1,7 @@
-package ru.job4j;
+package ru.job4j.servlet;
 
 import com.google.gson.Gson;
+import ru.job4j.repository.HbmTaskStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

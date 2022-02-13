@@ -1,10 +1,11 @@
-package ru.job4j;
+package ru.job4j.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ru.job4j.model.Task;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class HbmTaskStore {
     public void update(int id, boolean done) {
         Session session = sf.openSession();
         session.beginTransaction();
-        var query = session.createQuery("update ru.job4j.Task SET done = :done where id = :id");
+        var query = session.createQuery("update ru.job4j.model.Task SET done = :done where id = :id");
         query.setParameter("done", done);
         query.setParameter("id", id);
         query.executeUpdate();
@@ -50,7 +51,7 @@ public class HbmTaskStore {
         List<Task> rsl;
         Session session = sf.openSession();
         session.beginTransaction();
-        rsl = session.createQuery("from ru.job4j.Task").list();
+        rsl = session.createQuery("from ru.job4j.model.Task").list();
         session.getTransaction().commit();
         session.close();
         return rsl;
