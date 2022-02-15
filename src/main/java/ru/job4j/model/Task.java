@@ -14,13 +14,18 @@ public class Task {
     private Timestamp created;
     private boolean done;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Task() {
     }
 
-    public Task(String description, Timestamp created, boolean done) {
+    public Task(String description, Timestamp created, boolean done, User user) {
         this.description = description;
         this.created = created;
         this.done = done;
+        this.user = user;
     }
 
     public int getId() {
@@ -55,6 +60,14 @@ public class Task {
         this.done = done;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,6 +92,7 @@ public class Task {
                 + ", description='" + description + '\''
                 + ", created=" + created
                 + ", done=" + done
+                + ", user=" + user
                 + '}';
     }
 }

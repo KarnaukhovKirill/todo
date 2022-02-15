@@ -1,7 +1,10 @@
 package ru.job4j.servlet;
 
+
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.Gson;
-import ru.job4j.repository.HibernateStore;
+import ru.job4j.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,17 +15,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet(value = "/loadTasks.do")
-public class LoadTasksServlet extends HttpServlet {
+@WebServlet(value = "/loadUser.do")
+public class LoadUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var gson = (Gson) req.getServletContext().getAttribute("GSON");
-        HibernateStore store = HibernateStore.getInstance();
-        var tasks = store.findAllTasks();
-        resp.setContentType("aplication/json; charset=utf-8");
-        OutputStream outputStream = resp.getOutputStream();
-        String json = gson.toJson(tasks);
-        outputStream.write(json.getBytes(StandardCharsets.UTF_8));
-        outputStream.flush();
+        var session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        OutputStream output = resp.getOutputStream();
+        String json = gson.toJson(user);
+        output.write(json.getBytes(StandardCharsets.UTF_8));
+        output.flush();
+        output.close();
     }
 }
