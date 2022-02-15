@@ -1,5 +1,11 @@
 [![Build Status](https://app.travis-ci.com/KarnaukhovKirill/todo.svg?branch=main)](https://app.travis-ci.com/KarnaukhovKirill/todo)
 
+Если пользователь не зарегистирован в приложении, он увидит окно входа
+![alt text](https://github.com/KarnaukhovKirill/todo/blob/main/img/1A_Login.png)
+
+По кнопке "Регистрация" можно перейти на форму регистрации нового пользователя
+![alt text](https://github.com/KarnaukhovKirill/todo/blob/main/img/1B_Registration.png)
+
 Начальная страница, с невыполненными задачами.
 ![alt text](https://github.com/KarnaukhovKirill/todo/blob/main/img/1_Start.png)
 
