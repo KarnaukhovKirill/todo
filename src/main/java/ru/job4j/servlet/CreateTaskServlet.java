@@ -26,7 +26,7 @@ public class CreateTaskServlet extends HttpServlet {
         var user = (User) req.getSession().getAttribute("user");
         var store = HibernateStore.getInstance();
         store.create(
-                new Task(description, new Timestamp(System.currentTimeMillis()), false, user),
+                new Task(description, false, user),
                 catArray
         );
     }
