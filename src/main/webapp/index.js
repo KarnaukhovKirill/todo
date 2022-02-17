@@ -1,6 +1,7 @@
 $(document).ready(function () {
     startReload();
     loadUser();
+    loadCategories();
 })
 $('#navBar').load("nav.html");
 var showAllTaskNode = document.getElementById('showAllTask');
@@ -11,17 +12,19 @@ $('#showAllTask').on('click', function () {
 
 $('#taskForm').submit(function (e) {
     var $inputTask = $('#inputTask');
+    var $selectedCat = $('#selectCategory').val();
+    var categories = '';
+    for (var i = 0; i < $selectedCat.length; i++) {
+        categories += $selectedCat[i] + ',';
+    }
     $.ajax({
         type: 'POST',
         url: './createTask.do',
-        data: jQuery.param({ description: $inputTask.val()}),
+        data: jQuery.param({ description: $inputTask.val(), categories: categories}),
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json'
-    }).done(function (data) {
-        var $taskTable = $('#taskTableBody');
-        var taskHtml = createTaskHtml(data.done, data);
-        $taskTable.prepend(taskHtml);
-
+    }).always(function () {
+        startReload();
     })
     $inputTask.val('');
     e.preventDefault();
@@ -62,6 +65,24 @@ function loadUser() {
     });
 }
 
+function loadCategories() {
+    $.ajax({
+        type: 'GET',
+        url: './loadCategories.do',
+        dataType: 'json'
+    }).done(function (data) {
+        var $selectCategory = $('#selectCategory');
+        for (var i = 0; i < data.length; i++) {
+            var $newTr = $('<option>');
+            $newTr.val(data[i].id);
+            $newTr.text(data[i].name);
+            $selectCategory.append($newTr);
+        }
+    }).fail(function (err) {
+        console.log(err);
+    })
+}
+
 function updateTask(id, done) {
     alert(id);
     $.ajax({
@@ -100,11 +121,16 @@ function createTaskHtml(done, data) {
     } else {
         $div.prepend('<input class=\"form-check-input\" type=\"checkbox\" value=\"' + data.id + '\" onclick=\"updateTask(' + data.id + ', false' + ')\"/>');
     }
+    var $category = $('<td>');
+    for (var i = 0; i < data.categories.length; i++) {
+        $category.prepend(data.categories[i].name + "<br>");
+    }
     $done.prepend($div);
     $newTr.append($descriptionTd);
     $newTr.append($createdTd);
     $newTr.append($authorTd);
     $newTr.append($done);
+    $newTr.append($category);
     return $newTr;
 }
 

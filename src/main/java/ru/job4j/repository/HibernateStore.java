@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ru.job4j.model.Category;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
 
@@ -44,8 +45,14 @@ public class HibernateStore {
         }
     }
 
-    public Task create(Task task) {
-        return (Task) this.tx(session -> session.save(task));
+    public Task create(Task task, String[] categories) {
+        return (Task) this.tx(session -> {
+            for (String categoryID : categories) {
+                var category = session.find(Category.class, Integer.parseInt(categoryID));
+                task.addCategory(category);
+            }
+            return session.save(task);
+        });
     }
 
     public User create(User user) {
@@ -62,7 +69,11 @@ public class HibernateStore {
     }
 
     public List<Task> findAllTasks() {
-        return this.tx(session -> session.createQuery("from ru.job4j.model.Task").list());
+        return this.tx(session -> session.createQuery("select distinct t from Task t join fetch t.categories").list());
+    }
+
+    public List<Category> findAllCategories() {
+        return this.tx(session -> session.createQuery("from ru.job4j.model.Category").list());
     }
 
     public User findUserByEmail(String email) {

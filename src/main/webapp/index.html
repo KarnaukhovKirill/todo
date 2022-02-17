@@ -27,7 +27,7 @@
 <section class="vh-100">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-lg-9 col-xl-7">
+            <div class="col col-lg-12 col-xl-9">
                 <div class="card rounded-3">
                     <div class="card-body p-4">
                         <div id="navBar"></div>
@@ -38,6 +38,13 @@
                                 <div class="form-outline" style="margin-bottom: 10px">
                                     <label class="form-label" for="inputTask"></label>
                                     <input type="text" id="inputTask" class="form-control" placeholder="Напишите задачу здесь" value=""/>
+                                </div>
+                                <div class="form-outline" style="margin-bottom: 10px">
+                                    <label class="form-label select-label">Выберите одну или более категорий для задачи</label> <br>
+                                    <select class="select" multiple id="selectCategory" name="selectCategory">
+<!--                                        <option value="1">One</option>-->
+                                    </select>
+
                                 </div>
 
                             </div>
@@ -60,6 +67,7 @@
                                 <th scope="col">Дата</th>
                                 <th scope="col">Автор</th>
                                 <th scope="col">Выполнено</th>
+                                <th scope="col">Категория</th>
                             </tr>
                             </thead>
                             <tbody id="taskTableBody">

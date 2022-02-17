@@ -2,6 +2,8 @@ package ru.job4j.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +15,8 @@ public class Task {
     private String description;
     private Timestamp created;
     private boolean done;
-
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Category> categories = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -26,6 +29,10 @@ public class Task {
         this.created = created;
         this.done = done;
         this.user = user;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
     }
 
     public int getId() {
@@ -68,6 +75,14 @@ public class Task {
         this.user = user;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -93,6 +108,7 @@ public class Task {
                 + ", created=" + created
                 + ", done=" + done
                 + ", user=" + user
+                + ", categories=" + categories
                 + '}';
     }
 }

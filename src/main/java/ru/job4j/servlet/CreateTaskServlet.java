@@ -19,16 +19,15 @@ import java.sql.Timestamp;
 public class CreateTaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var gson = (Gson) req.getServletContext().getAttribute("GSON");
         req.setCharacterEncoding("UTF-8");
         var description = req.getParameter("description");
+        var categories = req.getParameter("categories");
+        String[] catArray = categories.split(",");
         var user = (User) req.getSession().getAttribute("user");
         var store = HibernateStore.getInstance();
-        var task = store.create(new Task(description, new Timestamp(System.currentTimeMillis()), false, user));
-        resp.setContentType("aplication/json; charset=utf-8");
-        OutputStream outputStream = resp.getOutputStream();
-        String json = gson.toJson(task);
-        outputStream.write(json.getBytes(StandardCharsets.UTF_8));
-        outputStream.flush();
+        store.create(
+                new Task(description, new Timestamp(System.currentTimeMillis()), false, user),
+                catArray
+        );
     }
 }
