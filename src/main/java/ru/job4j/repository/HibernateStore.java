@@ -69,7 +69,8 @@ public class HibernateStore {
     }
 
     public List<Task> findAllTasks() {
-        return this.tx(session -> session.createQuery("select distinct t from Task t join fetch t.categories").list());
+        return this.tx(session -> session.createQuery("select distinct t from Task t join fetch t.categories"
+                + " order by t.done").list());
     }
 
     public List<Category> findAllCategories() {

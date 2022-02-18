@@ -1,10 +1,7 @@
 package ru.job4j.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tasks")
@@ -17,7 +14,7 @@ public class Task {
     private Date created;
     private boolean done;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -76,11 +73,11 @@ public class Task {
         this.user = user;
     }
 
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
 
